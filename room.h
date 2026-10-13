@@ -1,6 +1,22 @@
 #pragma once
+#include <string>
+#include <vector>
+#include <memory>
 #include "enemy.h"
 #include "item.h"
+
+struct RoomData {
+  bool has_enemy;
+  std::string enemy_name;
+  int enemy_hp;
+  int enemy_damage;
+
+  bool has_chest;
+  std::string item_name;
+  ItemType item_type;
+  int item_value;
+};
+
 
 class Room{
     private:
@@ -8,9 +24,9 @@ class Room{
         bool is_chest;
         bool is_chest_open;
         Item chest_item;
-        Enemy enemy;
+        std::unique_ptr<Enemy> enemy;
     public:
-        Room(Enemy enemy,Item chest_item, bool is_enemy, bool is_chest, bool is_chest_open);
+        Room(std::unique_ptr<Enemy> enemy,Item chest_item, bool is_enemy, bool is_chest, bool is_chest_open);
         bool get_is_enemy()const;
         bool get_has_chest()const;
         bool get_has_chest_open()const;
@@ -21,5 +37,7 @@ class Room{
         void open_chest();
         void clear_item_chest();
         void clear_enemy();
-
 };
+
+Room build_room(const RoomData& data,int level);
+std::vector<Room> create_rooms(int level);

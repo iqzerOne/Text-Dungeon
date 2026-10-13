@@ -33,7 +33,7 @@ void Item::print_item()const{
     std::cout << this->name << " " << item_type_to_string(this->type) << " " << this->value << std::endl;
 }
 
-void Item::clear_item(Item& item){
+void Item::clear_item(){
     this->name = "Unknown";
     this->type = ItemType::Unknown;
     this->value = 0;

@@ -6,6 +6,7 @@ Enemy::Enemy(std::string name, int hp, int damage){
     this->hp = hp;
     this->damage = damage;
 }
+
 std::string Enemy::get_name()const{
     return name;
 }
@@ -24,4 +25,8 @@ void Enemy::take_damage(int value){
 
 void Enemy::print_enemy()const{
     std::cout << this->name << " " << this->hp << " " << this->damage << std::endl;
+}
+
+int Enemy::attack_damage(){
+    return damage;
 }

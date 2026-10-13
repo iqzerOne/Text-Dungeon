@@ -1,37 +1,19 @@
 #include <iostream>
-#include <vector>
 #include <map>
 #include "item.h"
 #include "inventory.h"
 #include "player.h"
 #include "enemy.h"
 #include "room.h"
-
-std::vector<Room> create_room(int level){
-    std::vector<Room> rooms;
-    Enemy enemy_1("Ogo", 30,10);
-    Item sword("sword",ItemType::Weapon,20);
-    bool is_enemy = true; 
-    bool is_chest = true; 
-    bool is_chest_open = false;
-    Room room_1(enemy_1,sword,is_enemy,is_chest,is_chest_open);
-    rooms.push_back(room_1);
-    is_chest = false; 
-    Room room_2(enemy_1,sword,is_enemy,is_chest,is_chest_open);
-    rooms.push_back(room_2);
-    is_enemy = false;
-    is_chest = true;
-    Room room_3(enemy_1,sword,is_enemy,is_chest,is_chest_open);
-    rooms.push_back(room_3);
-    return rooms;
-}
+#include "ogre.h"
+#include "skeleton.h"
 
 std::string create_text_room(Room& room){
     std::string text = "Its room has";
     if(room.get_is_enemy()){
         text += " enemy ";
     }
-    if(room.get_has_chest()){
+    if(room.get_has_chest() && !room.get_has_chest_open()){
         text += " chest ";
     }
     if(!room.get_is_enemy() && !room.get_has_chest()){
@@ -91,12 +73,9 @@ void use_item(Player& hero){
     hero.show_inventory();
     std::cout << "Choice item" << std::endl;
     int choice = correct_number(1,hero.size_inventory_player()) - 1;
-    //Выбираем
-    //применяем
     Item item = hero.get_item_player(choice);
     hero.use_item_player(item);
     hero.delete_item_player(choice);
-    //удаляем +
 }
 
 void inventory_choice(Player& hero){
@@ -157,7 +136,6 @@ int choice_menu_hero_room(Room& room,int count_room_size,int current_room,Player
     }
     if(mp_choice[choice] == "OpenInv"){
         inventory_choice(hero);
-        // hero.show_inventory();
     }
     return current_room;
 }
@@ -166,10 +144,10 @@ void play(){
     Player hero("hero", 100, 20);
     int current_room = 0;
     int level = 1;
-    std::vector<Room> rooms = create_room(level);
+    std::vector<Room> rooms = create_rooms(level);
     bool turn = true;
-    while(current_room < rooms.size() && hero.get_hp() > 0){
-        std::cout << "Room "<< current_room+1 <<"\n" << create_text_room(rooms[current_room]) << std::endl;
+    while(hero.get_hp() > 0 && current_room < rooms.size()){
+        std::cout << "Room "<< current_room+1 << " Level: "<<level<<"\n" << create_text_room(rooms[current_room]) << std::endl;
         std::cout << "HP:" << hero.get_hp() << std::endl;
         if(rooms[current_room].get_is_enemy()){
             std::cout << "Kill all enemy" << std::endl;
@@ -179,11 +157,45 @@ void play(){
             rooms[current_room].clear_enemy();
         }
         current_room = choice_menu_hero_room(rooms[current_room],rooms.size(),current_room,hero);
+        std::cout << "HP:" << hero.get_hp() << std::endl;
+        if(current_room >= rooms.size()){
+            level += 1;
+            if(level <= 2){
+                current_room = 0;
+                rooms.clear();
+                rooms = create_rooms(level); 
+            }
+            
+        }
     }
 }
 
 
 int main(){
     play();
+    // Ogre o("Ogre", 100, 10);
+    // Player p("Hero", 200,7);
+    // Skeleton s("Skeleton",55,4);
+    // // for(int i = 0; i < 12; i++){
+    // //     std::cout<<s.get_hp()<<std::endl;
+    // //     s.attack_damage();
+    // // }
+    //     bool turn = true;
+    // while(s.get_hp() > 0 && p.get_hp() > 0){
+    //     if(turn){
+    //         s.take_damage(p.get_damage());
+    //         turn = false;
+    //         std::cout<<p.get_hp()<<std::endl;
+    //     }else{
+    //         p.take_damage(s.attack_damage());
+    //         turn = true;
+    //         std::cout<<s.get_hp()<<std::endl;
+    //     }
+    // }
+    // if(p.get_hp() > 0){
+    //     return true;
+    // }else{
+    //     return false;
+    // }
     return 0;
 }

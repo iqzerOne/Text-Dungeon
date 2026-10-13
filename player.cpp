@@ -34,7 +34,7 @@ int Player::size_inventory_player()const{
 void Player::delete_item_player(int index){
     items.delete_item(index);
 }
-void Player::use_item_player(Item& item){
+void Player::use_item_player(const Item& item){
     if(item.get_type() == ItemType::Potion){
         this->hp += item.get_value();
     }else if(item.get_type() == ItemType::Weapon){

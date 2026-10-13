@@ -17,5 +17,5 @@ class Item{
         ItemType get_type()const;
         int get_value()const;
         void print_item()const;
-        void clear_item(Item& item);
+        void clear_item();
 };

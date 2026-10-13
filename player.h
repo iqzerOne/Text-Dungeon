@@ -19,6 +19,6 @@ class Player{
         void show_inventory()const;
         int size_inventory_player()const;
         Item get_item_player(int index)const;
-        void use_item_player(Item& item);
+        void use_item_player(const Item& item);
         void delete_item_player(int index);
 };

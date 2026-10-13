@@ -4,6 +4,7 @@
 class Enemy{
     private:
         std::string name;
+    protected:
         int hp;
         int damage;
     public:
@@ -14,4 +15,5 @@ class Enemy{
         int get_damage()const;
         void take_damage(int value);
         void print_enemy()const;
+        virtual int attack_damage();
 };
