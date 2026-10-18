@@ -45,3 +45,7 @@ void Player::use_item_player(const Item& item){
 Item Player::get_item_player(int index)const{
     return items.get_item(index);
 }
+
+int Player::attack_damage(){
+    return damage;
+}

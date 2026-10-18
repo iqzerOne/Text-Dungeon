@@ -1,6 +1,13 @@
 #pragma once
 #include <string>
 
+struct EnemyBase{
+    std::string name;
+    int hp;
+    int damage;
+};
+
+
 class Enemy{
     private:
         std::string name;
@@ -16,4 +23,6 @@ class Enemy{
         void take_damage(int value);
         void print_enemy()const;
         virtual int attack_damage();
+        void set_value_hp(int value);
+        void set_value_damage(int value);
 };

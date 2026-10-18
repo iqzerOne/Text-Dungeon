@@ -21,4 +21,5 @@ class Player{
         Item get_item_player(int index)const;
         void use_item_player(const Item& item);
         void delete_item_player(int index);
+        int attack_damage();
 };

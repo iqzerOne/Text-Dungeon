@@ -2,15 +2,13 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <random>
 #include "enemy.h"
 #include "item.h"
 
-struct RoomData {
-  bool has_enemy;
-  std::string enemy_name;
-  int enemy_hp;
-  int enemy_damage;
+extern std::vector<EnemyBase> Enemies;
 
+struct RoomData {
   bool has_chest;
   std::string item_name;
   ItemType item_type;
@@ -39,5 +37,8 @@ class Room{
         void clear_enemy();
 };
 
-Room build_room(const RoomData& data,int level);
+Room build_room(const RoomData& data);
 std::vector<Room> create_rooms(int level);
+std::mt19937& get_global_rng();
+bool is_enemy_flag();
+EnemyBase random_enemy();

@@ -1,5 +1,11 @@
 #include "enemy.h"
 #include <iostream>
+#include <vector>
+
+std::vector<EnemyBase> Enemies{
+    {"Ogre",100,3},
+    {"Skeleton",50,3},
+};
 
 Enemy::Enemy(std::string name, int hp, int damage){
     this->name = name;
@@ -29,4 +35,12 @@ void Enemy::print_enemy()const{
 
 int Enemy::attack_damage(){
     return damage;
+}
+
+void Enemy::set_value_hp(int value){
+    this->hp = value;
+}
+
+void Enemy::set_value_damage(int value){
+    this->damage = value;
 }
