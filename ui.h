@@ -3,6 +3,14 @@
 #include "room.h"
 #include "player.h"
 
+enum class RoomAction {
+    Next,
+    Back,
+    OpenChest,
+    OpenInventory,
+    Exit
+};
+
 std::string create_text_room(Room& room);
 int correct_number(int min, int max);
 void use_item(Player& hero);
@@ -12,3 +20,5 @@ void show_hp(int hp);
 void show_room_info(int current_room,int level,Room& room);
 void show_kill_enemy();
 void show_damage_battle(bool turn,int damage);
+void show_victory();
+void show_defeat();

@@ -6,6 +6,12 @@ enum class ItemType{ Unknown,Potion, Weapon };
 std::string item_type_to_string(ItemType type);
 ItemType string_to_item_type(std::string type);
 
+struct ItemBase{
+    std::string name;
+    ItemType type;
+    int value;
+};
+
 class Item{
     private:
         std::string name;

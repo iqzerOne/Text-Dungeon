@@ -57,6 +57,9 @@ void use_item(Player& hero){
 
 void inventory_choice(Player& hero){
     hero.show_inventory();
+    if (auto eq = hero.get_equip()) {
+        eq->print_item();
+    }
     std::cout << "1.Use item" << std::endl;
     std::cout << "2.Close inventory" << std::endl;
     int choice = correct_number(1,2);
@@ -70,48 +73,48 @@ void inventory_choice(Player& hero){
 
 int choice_menu_hero_room(Room& room,int count_room_size,int current_room,Player& hero){
     int ui = 1;
-    std::map<int,std::string> mp_choice;
+    std::map<int,RoomAction> mp_choice;
     if(current_room >= 0 && current_room < count_room_size){
         if(current_room + 1 == count_room_size){
             std::cout << ui << ".Exit" << std::endl;
-            mp_choice[ui] = "Exit";
+            mp_choice[ui] = RoomAction::Exit;
             ui += 1;
         }else{
             std::cout << ui << ".Next room" << std::endl;
-            mp_choice[ui] = "Next";
+            mp_choice[ui] = RoomAction::Next;
             ui += 1; 
         }
     }
     if(current_room > 0){
         std::cout << ui << ".Back room" << std::endl;
-        mp_choice[ui] = "Back";
+        mp_choice[ui] = RoomAction::Back;
         ui += 1;
     }
     if(room.get_has_chest() && !room.get_has_chest_open()){
         std::cout << ui << ".Open chest" << std::endl;
-        mp_choice[ui] = "Open";
+        mp_choice[ui] = RoomAction::OpenChest;
         ui += 1;
     }
     if(hero.size_inventory_player() > 0){
         std::cout << ui << ".Open inventory" << std::endl;
-        mp_choice[ui] = "OpenInv";
+        mp_choice[ui] = RoomAction::OpenInventory;
         ui += 1;
     }
 
     int choice = correct_number(1, ui - 1);
-    if(mp_choice[choice] == "Next" || mp_choice[choice] == "Exit"){
+    if(mp_choice[choice] == RoomAction::Next || mp_choice[choice] == RoomAction::Exit){
         return current_room + 1;
     }
-    if(mp_choice[choice] == "Back"){
+    if(mp_choice[choice] == RoomAction::Back){
         return current_room - 1;
     }
-    if(mp_choice[choice] == "Open"){
+    if(mp_choice[choice] == RoomAction::OpenChest){
         room.print_item_room();
         hero.add_item_inventory_player(room.get_chest_item());
         room.clear_item_chest();
         room.open_chest();
     }
-    if(mp_choice[choice] == "OpenInv"){
+    if(mp_choice[choice] == RoomAction::OpenInventory){
         inventory_choice(hero);
     }
     return current_room;
@@ -126,9 +129,19 @@ void show_room_info(int current_room,int level,Room& room){
     << " Level: "<<level
     <<"\n" << create_text_room(room) << std::endl;
 }
+
 void show_kill_enemy(){
     std::cout << "Kill all enemy" << std::endl;
 }
+
 void show_damage_battle(bool turn,int damage){
     std::cout << (turn? "Hero attack: " : "Enemy attack: ") << damage << std::endl;
+}
+
+void show_victory(){
+    std::cout << "You clear all rooms" << std::endl;
+}
+
+void show_defeat(){
+    std::cout << "Lost dungeon" << std::endl; 
 }

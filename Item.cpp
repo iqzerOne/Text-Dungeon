@@ -1,6 +1,6 @@
 #include "item.h"
 #include <iostream>
-
+#include <vector>
 
 std::string item_type_to_string(ItemType type) {
     if (type == ItemType::Potion) return "Potion";
@@ -13,6 +13,11 @@ ItemType string_to_item_type(std::string type) {
     if (type == "Weapon") return ItemType::Weapon;
     return ItemType::Unknown;
 }
+
+std::vector<ItemBase> ItemsBase{
+    {"sword_uncommon",ItemType::Weapon,5},
+    {"potion_heal",ItemType::Potion,10},
+};
 
 Item::Item(std::string name,ItemType type, int value){
     this->name = name;

@@ -17,7 +17,7 @@ void play(){
         if(rooms[current_room].get_is_enemy()){
             show_kill_enemy();
             if(!battle_enemy(rooms[current_room].get_enemy(),hero)){
-                return;
+                break;
             }
             rooms[current_room].clear_enemy();
         }
@@ -29,7 +29,16 @@ void play(){
                 current_room = 0;
                 rooms.clear();
                 rooms = create_rooms(level); 
+            }else{
+                break;
             }
         }
+    }
+    if(hero.get_hp() > 0){
+        show_victory();
+        return;
+    }else{
+        show_defeat();
+        return;
     }
 }

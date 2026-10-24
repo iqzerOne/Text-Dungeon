@@ -7,12 +7,12 @@
 #include "item.h"
 
 extern std::vector<EnemyBase> Enemies;
+extern std::vector<ItemBase> ItemsBase;
 
-struct RoomData {
-  bool has_chest;
-  std::string item_name;
-  ItemType item_type;
-  int item_value;
+struct LevelData {
+    int room_count;
+    double chance_enemy;
+    double chance_chest;
 };
 
 
@@ -37,8 +37,9 @@ class Room{
         void clear_enemy();
 };
 
-Room build_room(const RoomData& data);
+Room build_room(double chance_enemy,double chance_chest);
 std::vector<Room> create_rooms(int level);
 std::mt19937& get_global_rng();
-bool is_enemy_flag();
+bool is_flag(double chance);
 EnemyBase random_enemy();
+ItemBase random_item();

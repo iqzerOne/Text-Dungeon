@@ -11,7 +11,7 @@ bool battle_enemy(Enemy& enemy,Player& hero){
             turn = false;
         }else{
             int dmg = enemy.attack_damage();
-            hero.take_damage(enemy.attack_damage());
+            hero.take_damage(dmg);
             show_damage_battle(turn,dmg);
             turn = true;
         }

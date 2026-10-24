@@ -14,6 +14,15 @@ int Player::get_hp()const{
 int Player::get_damage()const{
     return damage;
 }
+
+std::optional<Item> Player::get_equip()const{
+    if(hands_weapon){
+        return hands_weapon;
+    }else{
+        return std::nullopt;
+    }
+}
+
 void Player::take_damage(int value){
     this->hp -= value;
     if(this->hp < 0){
@@ -38,7 +47,15 @@ void Player::use_item_player(const Item& item){
     if(item.get_type() == ItemType::Potion){
         this->hp += item.get_value();
     }else if(item.get_type() == ItemType::Weapon){
-        this->damage += item.get_value();
+        // this->damage += item.get_value();
+        if(hands_weapon){
+            Item change_weapon = *hands_weapon;
+            add_item_inventory_player(change_weapon);
+            hands_weapon = item;
+        }else{
+            hands_weapon = item;
+        }
+        
     }
 }
 
@@ -47,5 +64,10 @@ Item Player::get_item_player(int index)const{
 }
 
 int Player::attack_damage(){
-    return damage;
+    if(hands_weapon){
+        return damage + hands_weapon->get_value();
+    }else{
+        return damage;
+    }
+    // return damage;
 }
